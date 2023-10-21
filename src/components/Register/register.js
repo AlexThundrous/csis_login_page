@@ -7,10 +7,14 @@ class Register extends Component {
         this.state = {
             showPassword: false,
             showConfirmPassword: false,
-            Email: '',
+            id: '',
+            Address: '',
             Password: '',
             ConfirmPassword: '',
-            Name: '',
+            UserName: '',
+            FirstName: '',
+            LastName: '',
+            Phone_No: '',
             passwordMatch: true,
         };
     }
@@ -22,16 +26,63 @@ class Register extends Component {
         });
     }
 
-    onEmailChange(event) {
-        this.setState({ Email: event.target.value });
+    onAddressChange(event) {
+        this.setState({ Address: event.target.value });
+    }
+
+    onIdChange(event) {
+        this.setState({ id: event.target.value });
+    }
+   
+    onContactChange(event) {
+        this.setState({ Phone_No: event.target.value });
     }
 
     onPasswordChange(event) {
         this.setState({ Password: event.target.value });
     }
 
-    onNameChange(event) {
-        this.setState({ Name: event.target.value });
+    onUserNameChange(event) {
+        this.setState({ UserName: event.target.value });
+    }
+    
+    onFirstNameChange(event) {
+        this.setState({ FirstName: event.target.value });
+    }
+
+    onLastNameChange(event) {
+        this.setState({ LastName: event.target.value });
+    }
+    
+    onSubmitSignIn = (e) => {
+        e.preventDefault();
+        if (this.state.Password !== this.state.ConfirmPassword) {
+            this.setState({ passwordMatch: false });
+            return;
+        }
+        fetch('http://localhost:3002/register', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: this.state.id,
+                address: this.state.Address,
+                password: this.state.Password,
+                username: this.state.UserName,
+                first_name: this.state.FirstName,
+                last_name: this.state.LastName,
+                phone_number: this.state.Phone_No,
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    this.props.loadUser(data);
+                    this.props.onRouteChange('home');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
     toggleShowPassword = () => {
@@ -48,12 +99,16 @@ class Register extends Component {
 
     render() {
         const { onRouteChange } = this.props;
-        const { showPassword, showConfirmPassword, Email, Password, Name } = this.state;
-        this.onEmailChange = this.onEmailChange.bind(this);
+        const { showPassword, showConfirmPassword, Password, UserName ,FirstName, LastName, Address, Phone_No, id } = this.state;
+        this.onAddressChange = this.onAddressChange.bind(this);
+        this.onContactChange = this.onContactChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
-        this.onNameChange = this.onNameChange.bind(this);
+        this.onFirstNameChange = this.onFirstNameChange.bind(this);
+        this.onLastNameChange = this.onLastNameChange.bind(this);
+        this.onUserNameChange = this.onUserNameChange.bind(this);
+        this.onIdChange = this.onIdChange.bind(this);
         this.onConfirmPasswordChange = this.onConfirmPasswordChange.bind(this);
-        const isFormValid = Email.trim() !== '' && Password.trim().length >= 3 && Name.trim() !== '';
+        const isFormValid = UserName.trim() !== '' && Password.trim().length >= 3 && FirstName.trim() !== '' && LastName.trim() !== '' && Address.trim() !== '' && Phone_No.trim() !== '' && id.trim() !== '';
 
         return (
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -70,39 +125,102 @@ class Register extends Component {
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" onSubmit={this.onSubmitSignIn}>
-                        <div>
-                            <label htmlFor="name" className="block text-sm font-medium leading-6 text-white">
-                                Name
+                    <div>
+                            <label htmlFor="id" className="block text-sm font-medium leading-6 text-white">
+                                ID
                             </label>
                             <div className="mt-2">
                                 <input
-                                    id="name"
-                                    name="name"
-                                    type="name"
-                                    autoComplete="name"
+                                    id="id"
+                                    name="id"
+                                    type="text"
+                                    autoComplete="id"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={this.onNameChange}
+                                    className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={this.onIdChange}
                                 />
                             </div>
                         </div>
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-white">
-                                Email address
+                            <label htmlFor="first_name" className="block text-sm font-medium leading-6 text-white">
+                                First_Name
                             </label>
                             <div className="mt-2">
                                 <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
+                                    id="first_name"
+                                    name="first_name"
+                                    type="first_name"
+                                    autoComplete="first_name"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={this.onEmailChange}
+                                    className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={this.onFirstNameChange}
                                 />
                             </div>
                         </div>
-
+                        <div>
+                            <label htmlFor="last_name" className="block text-sm font-medium leading-6 text-white">
+                                Last_Name
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    id="last_name"
+                                    name="last_name"
+                                    type="last_name"
+                                    autoComplete="last_name"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={this.onLastNameChange}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="username" className="block text-sm font-medium leading-6 text-white">
+                                UserName
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    id="username"
+                                    name="username"
+                                    type="username"
+                                    autoComplete="username"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={this.onUserNameChange}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="phone_no" className="block text-sm font-medium leading-6 text-white">
+                                Phone no.
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    id="phone_no"
+                                    name="phone_no"
+                                    type="integer"
+                                    autoComplete="phone_no"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={this.onContactChange}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="address" className="block text-sm font-medium leading-6 text-white">
+                                Address
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    id="address"
+                                    name="address"
+                                    type="address"
+                                    autoComplete="address"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={this.onAddressChange}
+                                />
+                            </div>
+                        </div>
                         <div>
                             <div className="flex items-center justify-between">
                                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-white">
@@ -116,12 +234,12 @@ class Register extends Component {
                                     type={showPassword ? "text" : "password"}
                                     autoComplete="current-password"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     onChange={this.onPasswordChange}
                                 />
                                 <button
                                     type="button"
-                                    className="absolute top-1/2 transform -translate-y-1/2 right-2 text-white focus:outline-none"
+                                    className="absolute top-1/2 transform -translate-y-1/2 right-2 text-black focus:outline-none"
                                     onClick={this.toggleShowPassword}>
                                     {showPassword ? <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 48 48">
                                         <path d="M 42.470703 3.9863281 A 1.50015 1.50015 0 0 0 41.439453 4.4394531 L 28.025391 17.853516 C 28.02058 17.85139 28.016533 17.847821 28.011719 17.845703 L 14.845703 31.009766 C 14.848052 31.015107 14.851157 31.020054 14.853516 31.025391 L 4.4394531 41.439453 A 1.50015 1.50015 0 1 0 6.5605469 43.560547 L 16.513672 33.607422 C 18.345732 35.683816 21.01901 37 24 37 C 29.514 37 34 32.514 34 27 C 34 24.019566 32.683637 21.345974 30.607422 19.513672 L 35.052734 15.068359 C 39.90447 17.90912 43.668811 22.496845 45.050781 27.869141 C 45.220781 28.549141 45.83 29 46.5 29 C 46.62 29 46.749141 28.989219 46.869141 28.949219 C 47.679141 28.749219 48.159219 27.930859 47.949219 27.130859 C 46.409379 21.128251 42.461227 16.073087 37.277344 12.84375 L 43.560547 6.5605469 A 1.50015 1.50015 0 0 0 42.470703 3.9863281 z M 23.990234 9 C 12.820234 9 2.7507813 16.620859 0.05078125 27.130859 C -0.15921875 27.930859 0.32085937 28.749219 1.1308594 28.949219 C 1.9308594 29.159219 2.7492187 28.679141 2.9492188 27.869141 C 5.2792187 18.819141 14.330234 12 23.990234 12 C 25.700234 12 27.389531 12.209141 29.019531 12.619141 L 31.480469 10.160156 C 29.090469 9.4001562 26.570234 9 23.990234 9 z M 24 17 C 18.486 17 14 21.486 14 27 C 14 27.197 14.017297 27.390938 14.029297 27.585938 L 24.585938 17.029297 C 24.390937 17.017297 24.197 17 24 17 z M 25.632812 24.488281 C 26.454417 25.023417 27 25.946264 27 27 C 27 28.657 25.657 30 24 30 C 22.946264 30 22.023417 29.454417 21.488281 28.632812 L 25.632812 24.488281 z"></path>
@@ -145,7 +263,7 @@ class Register extends Component {
                                     type={showConfirmPassword ? "text" : "password"}
                                     autoComplete="confirm-password"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     onChange={this.onConfirmPasswordChange}
                                 />
                                 <button

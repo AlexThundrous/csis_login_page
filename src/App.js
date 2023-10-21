@@ -10,11 +10,29 @@ class App extends Component {
     super();
     this.state = {
       route: 'signin',
+      user: {
+        id: '',
+        first_name: '',
+        email: '',
+        last_name: '',
+      }
     };
   }  
 
   onRouteChange = (Route) => {
     this.setState({ route: Route });
+  }
+
+  loadUser = (data) => {
+    this.setState({
+      user: {
+        id: data.id,
+        first_name: data.first_name,
+        address: data.address,
+        last_name: data.last_name,
+        phone: data.phone
+      }
+    })
   }
 
   render() {
