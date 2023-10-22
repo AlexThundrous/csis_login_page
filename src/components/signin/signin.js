@@ -18,6 +18,30 @@ class Signin extends Component {
   onPasswordChange(event) {
     this.setState({ signinPassword: event.target.value });
   }
+   
+  onSubmitSignIn = (e) => {
+    e.preventDefault();
+    fetch('http://localhost:3002/signin', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: this.state.signinEmail,
+        password: this.state.signinPassword
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.id) {
+          console.log(data);
+          this.props.loadUser(data);
+          this.props.onRouteChange('home');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
 
 
   toggleShowPassword = () => {
@@ -49,16 +73,16 @@ class Signin extends Component {
           <form className="space-y-6" onSubmit={this.onSubmitSignIn}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-white">
-                Email address
+                Username
               </label>
               <div className="mt-2">
                 <input
                   id="email"
                   name="email"
-                  type="email"
+                  type="text"
                   autoComplete="email"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   onChange={this.onEmailChange}
                 />
               </div>
@@ -77,7 +101,7 @@ class Signin extends Component {
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   onChange={this.onPasswordChange}
                 />
                 <button
