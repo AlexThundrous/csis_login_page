@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { BrowserRouter as Router, Routes, Route, useParams} from 'react-router-dom';
 import ParticlesBg from 'particles-bg'
 import Signin from './components/signin/signin.js'
 import Register from './components/Register/register.js'
 import Home from './components/Home/home.js'
+import Admin from './components/admin/admin.js'
 import './App.css';
 
 
@@ -40,7 +42,9 @@ class App extends Component {
   render() {
     return (
       <div className="flex flex-col app-container">
-        {this.state.route === 'signin' || this.state.route === 'register' ? (this.state.route === 'signin' ?
+       <Router>
+         <Routes>
+         <Route path="/" element={this.state.route === 'signin' || this.state.route === 'register' ? (this.state.route === 'signin' ?
           ( 
           <div className="app-container"> 
           <ParticlesBg type="cobweb" bg={false} color="#7C3AED" /> 
@@ -52,7 +56,10 @@ class App extends Component {
           <div>
            <Home id = {this.state.user.id} firstName = {this.state.user.first_name} lastName = {this.state.user.last_name} address = {this.state.user.address} phoneNumber = {this.state.user.phone} loadUser={this.loadUser}/>
           </div>
-        )}
+        )} />
+        <Route path="/admin" element={<Admin/>}/>
+          </Routes>     
+        </Router> 
       </div>
     );
   }

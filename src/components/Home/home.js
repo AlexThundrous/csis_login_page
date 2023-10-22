@@ -48,8 +48,22 @@ const Home = (props) => {
         }
     };
 
+    const handleLogout = () => {
+        // Reload the page to log the user out
+        window.location.reload();
+    };
+
+
     return (
-        <div className="flex h-screen justify-center items-center">
+        <div className="flex flex-col h-screen justify-center items-center">
+             <div className="mt-4 mb-4">
+                    <button
+                        onClick={handleLogout}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                        <i className="fas fa-sign-out-alt mr-2"></i> Logout
+                    </button>
+                </div>    
             <div className="bg-neutral-800 text-white p-4 rounded shadow-lg flex flex-col items-center">
                 <h2 className="text-2xl mb-4">User Information</h2>
                 <p>
