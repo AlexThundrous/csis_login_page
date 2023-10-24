@@ -13,7 +13,7 @@ class Admin extends Component {
   }
 
   fetchUsers = () => {
-    fetch('http://localhost:3002/users')
+    fetch('https://pure-tundra-05251-98cfe92c5280.herokuapp.com/users')
       .then((response) => response.json())
       .then((data) => {
         this.setState({ users: data });

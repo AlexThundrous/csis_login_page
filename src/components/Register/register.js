@@ -60,7 +60,7 @@ class Register extends Component {
             this.setState({ passwordMatch: false });
             return;
         }
-        fetch('http://localhost:3002/register', {
+        fetch('https://pure-tundra-05251-98cfe92c5280.herokuapp.com/register', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

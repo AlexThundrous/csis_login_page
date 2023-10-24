@@ -25,7 +25,7 @@ const Home = (props) => {
 
     const handleSaveClick = async (updatedProfile) => {
         try {
-            fetch(`http://localhost:3002/update/${updatedProfile.id}`, {
+            fetch(`https://pure-tundra-05251-98cfe92c5280.herokuapp.com/update/${updatedProfile.id}`, {
                 method: 'put',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
