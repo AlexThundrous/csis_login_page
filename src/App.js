@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Routes, Route, useParams} from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useParams, HashRouter} from 'react-router-dom';
 import ParticlesBg from 'particles-bg'
 import Signin from './components/signin/signin.js'
 import Register from './components/Register/register.js'
@@ -42,7 +42,7 @@ class App extends Component {
   render() {
     return (
       <div className="flex flex-col app-container">
-       <Router>
+       <HashRouter>
          <Routes>
          <Route path="/" element={this.state.route === 'signin' || this.state.route === 'register' ? (this.state.route === 'signin' ?
           ( 
@@ -57,9 +57,9 @@ class App extends Component {
            <Home id = {this.state.user.id} firstName = {this.state.user.first_name} lastName = {this.state.user.last_name} address = {this.state.user.address} phoneNumber = {this.state.user.phone} loadUser={this.loadUser}/>
           </div>
         )} />
-        <Route path="/admin" element={<Admin/>}/>
+        <Route path="admin" element={<Admin/>}/>
           </Routes>     
-        </Router> 
+        </HashRouter> 
       </div>
     );
   }
