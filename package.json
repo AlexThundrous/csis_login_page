@@ -14,12 +14,13 @@
     "react-parallax-tilt": "^1.7.154",
     "react-router-dom": "^6.17.0",
     "react-scripts": "^5.0.1",
+    "serve": "^14.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
