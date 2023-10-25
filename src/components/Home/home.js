@@ -32,7 +32,7 @@ const Home = (props) => {
                     id: updatedProfile.id,
                     first_name: updatedProfile.firstName,
                     last_name: updatedProfile.lastName,
-                    phoneNumber: updatedProfile.phoneNumber,
+                    phone_number: updatedProfile.phoneNumber,
                     address: updatedProfile.address,
                 }),
             })
@@ -92,7 +92,8 @@ const Home = (props) => {
                         <div className="mt-4">
                             Phone Number:
                             <input
-                                type="text"
+                                type="number"
+                                name="phoneNumber"
                                 value={updatedPhoneNumber}
                                 onChange={(e) => setUpdatedPhoneNumber(e.target.value)}
                                 className="bg-black text-white rounded mb-2 p-2"
